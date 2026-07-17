@@ -19,7 +19,10 @@ defmodule XofMusicApi.DeezerClient do
            ]
          ) do
       {:ok, %{status: 200, body: %{"data" => data}}} ->
-        {:ok, data |> get_strict_artist_id(artist)}
+        case get_strict_artist_id(data, artist) do
+          nil -> {:error, :artist_not_found}
+          artist_id -> {:ok, artist_id}
+        end
 
       {:ok, %{status: 200, body: %{"error" => %{"type" => "ParameterException"}}}} ->
         {:error, :wrong_parameters}
