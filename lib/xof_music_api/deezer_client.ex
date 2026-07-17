@@ -50,20 +50,17 @@ defmodule XofMusicApi.DeezerClient do
   end
 
   def get_strict_artist_id(artist_list, artist_name) do
-    with [artist_body] <-
-           artist_list
-           |> Enum.filter(fn artist ->
-             artist["name"] == artist_name
-           end) do
-      artist_body |> Map.get("id")
-    else
-      [] ->
-        nil
-
-      artists ->
-        artists
-        |> Enum.max_by(fn artist -> artist["nb_fan"] end)
-        |> Map.get("id")
+    artist_list
+    |> Enum.filter(fn artist ->
+      artist["name"] == artist_name
+    end)
+    |> Enum.max_by(
+      fn artist -> artist["nb_fan"] end,
+      fn -> nil end
+    )
+    |> case do
+      nil -> nil
+      artist -> artist["id"]
     end
   end
 end
