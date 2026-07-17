@@ -9,7 +9,7 @@ defmodule XofMusicApi.DeezerClient do
     end
   end
 
-  def find_artist(artist) do
+  defp find_artist(artist) do
     case Req.get(
            @deezer_search_url,
            params: [
@@ -33,7 +33,7 @@ defmodule XofMusicApi.DeezerClient do
     end
   end
 
-  def fetch_albums(artist_id) do
+  defp fetch_albums(artist_id) do
     case Req.get(
            "#{@deezer_api_url}/artist/#{artist_id}/albums",
            params: [limit: 50]
@@ -49,7 +49,7 @@ defmodule XofMusicApi.DeezerClient do
     end
   end
 
-  def get_strict_artist_id(artist_list, artist_name) do
+  defp get_strict_artist_id(artist_list, artist_name) do
     artist_list
     |> Enum.filter(fn artist ->
       artist["name"] == artist_name
