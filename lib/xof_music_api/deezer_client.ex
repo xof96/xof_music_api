@@ -13,9 +13,7 @@ defmodule XofMusicApi.DeezerClient do
     case Req.get(
            @deezer_search_url,
            params: [
-             q: artist,
-             # Doesn't seem to work so we implement our own strict search with get_strict_artist_id
-             strict: "on"
+             q: artist
            ]
          ) do
       {:ok, %{status: 200, body: %{"data" => data}}} ->
