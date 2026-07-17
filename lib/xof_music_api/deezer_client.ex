@@ -42,7 +42,7 @@ defmodule XofMusicApi.DeezerClient do
         {:ok, data}
 
       {:ok, response} ->
-        {:ok, response}
+        {:error, {:deezer_api_error, response.status}}
 
       {:error, reason} ->
         {:error, reason}
