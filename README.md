@@ -15,7 +15,7 @@ The project is currently under development.
 Make sure you have Elixir installed, then clone the repository and install the dependencies:
 
 ```bash
-git clone <repository-url>
+git clone https://github.com/xof96/xof_music_api.git
 cd xof_music_api
 mix deps.get
 ```
