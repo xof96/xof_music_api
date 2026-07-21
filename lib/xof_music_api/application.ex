@@ -6,6 +6,7 @@ defmodule XofMusicApi.Application do
     port = System.get_env("PORT", "4000") |> String.to_integer()
 
     children = [
+      XofMusicApi.Repo,
       {Bandit, plug: XofMusicApiWeb.Router, scheme: :http, port: port}
     ]
 

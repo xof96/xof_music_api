@@ -21,9 +21,11 @@ defmodule XofMusicApi.MixProject do
   defp deps do
     [
       {:bandit, "~> 1.12"},
+      {:ecto_sql, "~> 3.14"},
+      {:jason, "~> 1.4"},
       {:plug, "~> 1.20"},
-      {:req, "~> 0.6"},
-      {:jason, "~> 1.4"}
+      {:postgrex, "~> 0.21"},
+      {:req, "~> 0.6"}
     ]
   end
 end
