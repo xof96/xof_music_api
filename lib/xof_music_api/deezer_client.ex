@@ -38,22 +38,6 @@ defmodule XofMusicApi.DeezerClient do
     end
   end
 
-  defp fetch_albums(artist_id) do
-    case Req.get(
-           "#{@deezer_api_url}/artist/#{artist_id}/albums",
-           params: [limit: 50]
-         ) do
-      {:ok, %{status: 200, body: %{"data" => data}}} ->
-        {:ok, data}
-
-      {:ok, response} ->
-        {:error, {:deezer_api_error, response.status}}
-
-      {:error, reason} ->
-        {:error, reason}
-    end
-  end
-
   defp get_strict_artist_id(artist_list, artist_name) do
     artist_list
     |> Enum.filter(fn artist ->
@@ -66,6 +50,45 @@ defmodule XofMusicApi.DeezerClient do
     |> case do
       nil -> nil
       artist -> artist["id"]
+    end
+  end
+
+  defp fetch_albums(artist_id) do
+    url = "#{@deezer_api_url}/artist/#{artist_id}/albums"
+
+    case Req.get(
+           url,
+           params: [limit: 50]
+         ) do
+      {:ok, %{status: 200, body: %{"data" => album_list}}} ->
+        albums = album_list |> Enum.map(&normalize_album/1)
+        {:ok, albums}
+
+      {:ok, response} ->
+        {:error, {:deezer_api_error, response.status}}
+
+      {:error, reason} ->
+        {:error, reason}
+    end
+  end
+
+  defp normalize_album(%{
+         "title" => title,
+         "release_date" => release_date
+       }) do
+    %{
+      name: title,
+      release_date: parse_date(release_date)
+    }
+  end
+
+  defp parse_date(nil), do: nil
+  defp parse_date(""), do: nil
+
+  defp parse_date(date) do
+    case Date.from_iso8601(date) do
+      {:ok, parsed_date} -> parsed_date
+      {:error, _reason} -> nil
     end
   end
 end
