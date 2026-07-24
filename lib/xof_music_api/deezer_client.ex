@@ -5,7 +5,12 @@ defmodule XofMusicApi.DeezerClient do
   def get_discography(artist) when is_binary(artist) do
     with {:ok, artist_id} <- find_artist(artist),
          {:ok, album_list} <- fetch_albums(artist_id) do
-      {:ok, album_list}
+      {:ok,
+       %{
+         name: artist,
+         deezer_id: artist_id,
+         albums: album_list
+       }}
     end
   end
 
