@@ -1,6 +1,6 @@
 defmodule XofMusicApi.Music do
   alias XofMusicApi.DeezerClient
-  alias XofMusicApi.Music.Repository
+  alias XofMusicApi.Music.{Repository, Discography}
 
   def get_discography(artist_name) when is_binary(artist_name) do
     case Repository.get_artist_with_albums(artist_name) do
@@ -8,7 +8,7 @@ defmodule XofMusicApi.Music do
         fetch_and_store_discography(artist_name)
 
       artist ->
-        {:ok, artist}
+        {:ok, Discography.from_artist(artist)}
     end
   end
 
