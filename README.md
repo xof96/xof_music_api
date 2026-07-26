@@ -129,13 +129,13 @@ http://localhost:4000
 Retrieve an artist's discography
 
 ```
-GET /artists/:artist_name/discography
+GET api/artists/:artist_name/discography
 ```
 
 Example
 
 ```
-GET /artists/Eminem/discography
+GET api/artists/Eminem/discography
 ```
 
 Example response
