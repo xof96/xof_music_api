@@ -11,13 +11,12 @@ defmodule XofMusicApiWeb.Router do
       name: "Xof Music API",
       status: "ok",
       endpoints: %{
-        health: "/health",
-        artists: "/api/artists"
+        discography: "api/artists/:artist_name/discography"
       }
     })
   end
 
-  get "/artists/:artist_name/discography" do
+  get "api/artists/:artist_name/discography" do
     case XofMusicApi.Music.get_discography(artist_name) do
       {:ok, discography} ->
         json(conn, 200, discography)
