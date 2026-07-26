@@ -13,16 +13,16 @@ defmodule XofMusicApi.Music do
   end
 
   defp fetch_and_store_discography(artist_name) do
-    with {:ok, discography} <- DeezerClient.get_discography(artist_name) do
-      artist_attrs = %{
-        name: discography.name,
-        deezer_id: discography.deezer_id
-      }
-
-      Repository.create_artist_with_albums(
-        artist_attrs,
-        discography.albums
-      )
+    with {:ok, discography} <- DeezerClient.get_discography(artist_name),
+         {:ok, artist} <-
+           Repository.create_artist_with_albums(
+             %{
+               name: discography.name,
+               deezer_id: discography.deezer_id
+             },
+             discography.albums
+           ) do
+      {:ok, Discography.from_artist(artist)}
     end
   end
 end
